@@ -81,7 +81,8 @@ if __name__ == '__main__':
     
     for epoch in tqdm(range(epoch_start_idx, args.num_epochs + 1)):
         if args.inference_only: break
-        for step in range(num_batch):
+        max_steps = min(num_batch, 1000)
+        for step in range(max_steps):
             u, seq, pos, neg = sampler.next_batch()
             u, seq, pos, neg = np.array(u), np.array(seq), np.array(pos), np.array(neg)
             pos_logits, neg_logits = model(u, seq, pos, neg)
@@ -97,7 +98,7 @@ if __name__ == '__main__':
             if step % 100 == 0:
                 print("loss in epoch {} iteration {}: {}".format(epoch, step, loss.item())) # expected 0.4~0.6 after init few epochs
     
-        if epoch % 20 == 0 or epoch == 1:
+        if epoch % 5 == 0 or epoch == 1:
             model.eval()
             t1 = time.time() - t0
             T += t1
