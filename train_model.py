@@ -80,6 +80,7 @@ def train_model_phase1_(rank, world_size, args):
         if args.multi_gpu:
             train_data_loader.sampler.set_epoch(epoch)
         for step, data in enumerate(train_data_loader):
+            if step >= 500: break
             u, seq, pos, neg = data
             u, seq, pos, neg = u.numpy(), seq.numpy(), pos.numpy(), neg.numpy()
             model([u,seq,pos,neg], optimizer=adam_optimizer, batch_iter=[epoch,args.num_epochs + 1,step,num_batch], mode='phase1')
@@ -131,6 +132,8 @@ def train_model_phase2_(rank,world_size,args):
         if args.multi_gpu:
             train_data_loader.sampler.set_epoch(epoch)
         for step, data in enumerate(train_data_loader):
+            if step >= 500: break
+
             u, seq, pos, neg = data
             u, seq, pos, neg = u.numpy(), seq.numpy(), pos.numpy(), neg.numpy()
             model([u,seq,pos,neg], optimizer=adam_optimizer, batch_iter=[epoch,args.num_epochs + 1,step,num_batch], mode='phase2')
