@@ -1,6 +1,6 @@
 # models
-*.pth
-*.pt
+
+
 *.json.gz
 *.bin
 *.model
